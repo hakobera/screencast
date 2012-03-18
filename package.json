@@ -1,0 +1,28 @@
+{
+  "name": "screencast",
+  "description": "Capture screen as image and broadcast it using WebSocket (Only support Mac OS X)",
+  "version": "0.1.0",
+  "author": "Kazuyuki Honda <hakobera@gmail.com>",
+  "main": "index",
+  "bin": "./bin/screencast",
+  "dependencies": {
+    "commander": "0.5.2",
+    "websocket": "1.0.4",
+    "mkdirp": "0.3.0",
+	  "data-section": "0.2.1",
+	  "imagemagick": "0.1.2",
+	  "static-resource": "0.1.0"
+  },
+  "devDependencies": {
+    "mocha": "0.14.1",
+    "should": "0.6.0",
+	  "request": "2.9.153"
+  },
+  "engines": {
+    "node": ">= 0.4"
+  },
+  "os": [ "darwin" ],
+  "scripts": {
+    "test": "make test"
+  }
+}

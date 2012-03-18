@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+var ScreenCaster = require('../'),
+    program = require('commander');
+
+var screenCaster = new ScreenCaster(),
+    title = 'screencast';
+
+program
+  .version(screenCaster.version)
+  .option('-p, --port <port>', 'set server port number')
+  .option('-t, --title <title>', 'set title of index.html')
+  .parse(process.argv);
+
+if (program.title) {
+  title = program.title;
+}
+
+screenCaster.start(program.port, title, onError);
+
+/**
+ * Error handler
+ */
+function onError(err) {
+  if (typeof err === 'string') {
+    abort(err);
+  }
+
+  if (err instanceof Error) {
+    abort(err.message);
+  }
+}
+
+/**
+ * Exit with the given `str`.
+ *
+ * @param {String} str
+ */
+function abort(str) {
+  console.error(str);
+  process.exit(1);
+}
