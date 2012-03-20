@@ -1,25 +1,31 @@
+var createObjectURL = (function() {
+  var URL = window.URL || window.webkitURL;
+  return function(data) {
+    return URL.createObjectURL(data);
+  }
+})();
+
 window.onload = function() {
   var hostname = window.location.hostname,
       port = window.location.port,
       uri = 'ws://' + hostname + (port === '' ? '' : (':' + port));
 
-  var outCanvas = document.getElementById('out');
+  var outImg = document.getElementById('out');
 
   function render(data) {
-    var img = new PNG(data);
-    img.render(outCanvas);
+    outImg.src = data;
   }
 
   console.log('connected to %s', uri);
   var socket = new WebSocket(uri, 'screencaster-protocol');
-  socket.binaryType = 'arraybuffer';
+  socket.binaryType = 'blob';
 
   socket.onopen = function() {
     console.log('connected');
   };
 
   socket.onmessage = function(message) {
-    var data = new Uint8Array(message.data);
+    var data = createObjectURL(message.data);
     render(data);
   }
 };
