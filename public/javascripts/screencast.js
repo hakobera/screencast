@@ -1,11 +1,6 @@
-var createObjectURL = (function() {
-  var URL = window.URL || window.webkitURL;
-  return function(data) {
-    return URL.createObjectURL(data);
-  }
-})();
-
 window.onload = function() {
+  var URL = window.URL || window.webkitURL;
+
   var hostname = window.location.hostname,
       port = window.location.port,
       uri = 'ws://' + hostname + (port === '' ? '' : (':' + port));
@@ -13,7 +8,9 @@ window.onload = function() {
   var outImg = document.getElementById('out');
 
   function render(data) {
-    outImg.src = data;
+    URL.revokeObjectURL(outImg.src);
+    var imgUrl = URL.createObjectURL(data);
+    outImg.src = imgUrl;
   }
 
   console.log('connected to %s', uri);
@@ -25,7 +22,6 @@ window.onload = function() {
   };
 
   socket.onmessage = function(message) {
-    var data = createObjectURL(message.data);
-    render(data);
+    render(message.data);
   }
 };
